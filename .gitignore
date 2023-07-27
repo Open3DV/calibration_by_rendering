@@ -1,0 +1,5 @@
+board.png
+calib_board_rendering/x64
+calib_board_rendering/.vs
+__pycache__
+*.dll
