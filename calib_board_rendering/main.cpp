@@ -109,7 +109,7 @@ int main()
         cout << rvec << endl;
         cout << tvec << endl;
 
-        render(output_path, rvec, tvec, camera_intrinsic_r, camera_dist_r);
+        render(output_path, rvec, tvec, camera_intrinsic_l, camera_dist_l);
 
     }
 
