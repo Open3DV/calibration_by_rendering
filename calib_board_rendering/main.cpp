@@ -95,33 +95,18 @@ int main()
     for (int i = 0; i < 45; i++)
     {
         std::ostringstream ss;
-        ss << "board2cam_RT/" << setw(2) << setfill('0') << i << "_L.txt";
+        ss << "board2cam_RT/" << setw(2) << setfill('0') << i << "_L.xml";
         string input_path = ss.str();
         ss.str("");
         ss << "render_result/" << setw(2) << setfill('0') << i << "_L.png";
         string output_path = ss.str();
         cout << output_path << endl;
 
-        ifstream ifs;
-        ifs.open(input_path);
-
-        float data;
-        ifs >> data;
-        rvec.at<float>(0, 0) = data;
-        ifs >> data;
-        rvec.at<float>(1, 0) = data;
-        ifs >> data;
-        rvec.at<float>(2, 0) = data;
+        cv::FileStorage fs_in(input_path, cv::FileStorage::READ);
+        fs_in["cam_board2L_rvec"] >> rvec;
+        fs_in["cam_board2L_tvec"] >> tvec;
 
         cout << rvec << endl;
-
-        ifs >> data;
-        tvec.at<float>(0, 0) = data;
-        ifs >> data;
-        tvec.at<float>(1, 0) = data;
-        ifs >> data;
-        tvec.at<float>(2, 0) = data;
-
         cout << tvec << endl;
 
         render(output_path, rvec, tvec, camera_intrinsic_r, camera_dist_r);
@@ -131,33 +116,18 @@ int main()
     for (int i = 0; i < 45; i++)
     {
         std::ostringstream ss;
-        ss << "board2cam_RT/" << setw(2) << setfill('0') << i << "_R.txt";
+        ss << "board2cam_RT/" << setw(2) << setfill('0') << i << "_R.xml";
         string input_path = ss.str();
         ss.str("");
         ss << "render_result/" << setw(2) << setfill('0') << i << "_R.png";
         string output_path = ss.str();
         cout << output_path << endl;
 
-        ifstream ifs;
-        ifs.open(input_path);
-
-        float data;
-        ifs >> data;
-        rvec.at<float>(0, 0) = data;
-        ifs >> data;
-        rvec.at<float>(1, 0) = data;
-        ifs >> data;
-        rvec.at<float>(2, 0) = data;
+        cv::FileStorage fs_in(input_path, cv::FileStorage::READ);
+        fs_in["cam_board2R_rvec"] >> rvec;
+        fs_in["cam_board2R_tvec"] >> tvec;
 
         cout << rvec << endl;
-
-        ifs >> data;
-        tvec.at<float>(0, 0) = data;
-        ifs >> data;
-        tvec.at<float>(1, 0) = data;
-        ifs >> data;
-        tvec.at<float>(2, 0) = data;
-
         cout << tvec << endl;
 
         render(output_path, rvec, tvec, camera_intrinsic_r, camera_dist_r);

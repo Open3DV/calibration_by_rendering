@@ -30,8 +30,8 @@ if __name__ == '__main__':
     draw_axis(ax, rvec=base_rvec, tvec=base_tvec)
 
     # 相机悬挂点RT
-    mount2base_rvec = np.matrix([PI,0,0], dtype=np.float32).T  
-    mount2base_tvec = np.matrix([0,0,1500], dtype=np.float32).T
+    mount2base_rvec = np.matrix([PI,0,0], dtype=np.float32).T  #绕世界坐标系的X轴旋转PI，Z轴本来向上，现在向下
+    mount2base_tvec = np.matrix([0,0,1500], dtype=np.float32).T  #悬挂高度1.5米
     
     # 相机到地面中心的RT
     cam_L2base_rvec, cam_L2base_tvec = multiply_transform(mount2base_rvec, mount2base_tvec, cam_L2M_rvec, cam_L2M_tvec)
@@ -82,32 +82,15 @@ if __name__ == '__main__':
                 cam_board2R_rvec, cam_board2R_tvec = multiply_transform(base2R_rvec, base2R_tvec, board2base_rvec, board2base_tvec)
                 
                 # 保存RT
-                with open('board2cam_RT\%02d_L.txt'%idx, 'w') as fp:
-                    fp.write(str(cam_board2L_rvec[0,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2L_rvec[1,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2L_rvec[2,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2L_tvec[0,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2L_tvec[1,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2L_tvec[2,0]))
-                    fp.write('\n')
-                with open('board2cam_RT\%02d_R.txt'%idx, 'w') as fp:
-                    fp.write(str(cam_board2R_rvec[0,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2R_rvec[1,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2R_rvec[2,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2R_tvec[0,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2R_tvec[1,0]))
-                    fp.write('\n')
-                    fp.write(str(cam_board2R_tvec[2,0]))
-                    fp.write('\n')
+                file = cv2.FileStorage('board2cam_RT\%02d_L.xml'%idx, cv2.FileStorage_WRITE)
+                file.write('cam_board2L_rvec', cam_board2L_rvec)
+                file.write('cam_board2L_tvec', cam_board2L_tvec)
+                file.release
+                
+                file = cv2.FileStorage('board2cam_RT\%02d_R.xml'%idx, cv2.FileStorage_WRITE)
+                file.write('cam_board2R_rvec', cam_board2R_rvec)
+                file.write('cam_board2R_tvec', cam_board2R_tvec)
+                file.release
                     
                 # 保存圆点坐标
                 project_board('board_points\%02d_L.xml'%idx, cam_board2L_rvec, cam_board2L_tvec, camera_intrinsic_l, camera_dist_l)
