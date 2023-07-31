@@ -53,8 +53,8 @@ void render(string output_png, Mat rvec, Mat tvec, Mat intrinsic, Mat distortion
 
         for (int x = 0; x < board.cols; x++)
         {
-            int dst_x = (int)(point2d.at<Point2f>(x, 0).x);
-            int dst_y = (int)(point2d.at<Point2f>(x, 0).y);
+            int dst_x = (int)(point2d.at<Point2f>(x, 0).x + 0.5);
+            int dst_y = (int)(point2d.at<Point2f>(x, 0).y + 0.5);
 
             if (dst_y >= 0 && dst_y < 1240 && dst_x>0 && dst_x < 1624)
             {
