@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 errs_list_l = []
 errs_list_r = []
@@ -67,8 +68,8 @@ def calculate_distance(point_path, img_path, is_left):
 
 pic_num = 45
 pattern_size = (7, 11)
-point_path = "D:\Code\CenterDistance\\board_points"
-img_path = "D:\Code\CenterDistance\\render_result"
+point_path = "./board_points"
+img_path = "./render_result"
 calculate_distance(img_path=img_path, point_path=point_path, is_left=True)
 calculate_distance(img_path=img_path, point_path=point_path, is_left=False)
 
