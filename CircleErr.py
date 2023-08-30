@@ -7,6 +7,8 @@ import os
 
 errs_list_l = []
 errs_list_r = []
+num_list_l = []
+num_list_r = []
 
 
 def read_points_from_file(file_path):
@@ -43,11 +45,13 @@ def calculate_distance(point_path, img_path, is_left):
                 corners_L = corners.reshape(-1, 2)
                 errs_l = corners_L - point_mat_l
                 errs_list_l.append(errs_l)
+                num_list_l.append(idx)
                 print(errs_l)
             else:
                 corners_R = corners.reshape(-1, 2)
                 errs_r = corners_R - point_mat_r
                 errs_list_r.append(errs_r)
+                num_list_r.append(idx)
                 print(errs_r)
 
         # 根据图像点与真实点的差值绘制表征偏移量方向和大小的直线
@@ -86,7 +90,10 @@ average_errs_l = np.array(average_errs_l)
 print(average_errs_l)
 x_l = average_errs_l[:, 0]
 y_l = average_errs_l[:, 1]
-plt.scatter(x_l, y_l)
+fig, ax = plt.subplots()
+ax.scatter(x_l, y_l, c='r', label='$camera1$')
+for i in range(len(x_l)):
+    ax.text(x_l[i], y_l[i], num_list_l[i])
 
 # 右目相机图像点与真实点分布散点图
 for i in range(len(errs_list_r)):
@@ -97,8 +104,11 @@ average_errs_r = np.array(average_errs_r)
 print(average_errs_r)
 x_r = average_errs_r[:, 0]
 y_r = average_errs_r[:, 1]
-plt.scatter(x_r, y_r)
+ax.scatter(x_r, y_r, c='b', label='$camera2$')
+for i in range(len(x_l)):
+    ax.text(x_r[i], y_r[i], num_list_r[i])
 plt.xlabel('X-axis')
 plt.ylabel('Y-axis')
 plt.title('Center Distance')
+plt.legend()
 plt.show()
