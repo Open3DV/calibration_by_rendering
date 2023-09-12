@@ -5,6 +5,7 @@
 import os
 import cv2
 import numpy as np
+from ellipse_center_correction import ellipse_center_correction
 
 # from utils import *
 
@@ -57,6 +58,7 @@ def single_calibrate(path, is_left):
         if not is_found:
             print("not find!")
             continue
+        corners_nx1x2 = ellipse_center_correction(img, corners_nx1x2)
         cv2.drawChessboardCorners(img, pattern_size, corners_nx1x2, is_found)
         cv2.namedWindow('img', 0)
         cv2.imshow('img', img)
@@ -178,11 +180,11 @@ camera_matrix_r, dist_coeffs_r, image_pts_list_r, obj_pts_list_r, image_list_num
 print("camera_matrix_r", camera_matrix_r)
 print("dist_coeffs_r", dist_coeffs_r)
 
-# cv_file = cv2.FileStorage("calib_param.xml", cv2.FILE_STORAGE_WRITE)
-# cv_file.write("camera_intrinsic_l", camera_matrix_l)
-# cv_file.write("camera_dist_l", dist_coeffs_l)
-# cv_file.write("camera_intrinsic_r", camera_matrix_r)
-# cv_file.write("camera_dist_r", dist_coeffs_r)
+cv_file = cv2.FileStorage("calib_param_45.xml", cv2.FILE_STORAGE_WRITE)
+cv_file.write("camera_intrinsic_l", camera_matrix_l)
+cv_file.write("camera_dist_l", dist_coeffs_l)
+cv_file.write("camera_intrinsic_r", camera_matrix_r)
+cv_file.write("camera_dist_r", dist_coeffs_r)
 
 image_pts_list_l_temp = []
 image_pts_list_r_temp = []
@@ -251,11 +253,11 @@ print('dist_coeffs_2: ', dist_coeffs_2)
 print('R: ', R)
 print('T: ', T)
 
-cv_file = cv2.FileStorage("calib_param.xml", cv2.FILE_STORAGE_WRITE)
-cv_file.write("camera_intrinsic_l", camera_matrix_l)
-cv_file.write("camera_dist_l", dist_coeffs_l)
-cv_file.write("camera_intrinsic_r", camera_matrix_r)
-cv_file.write("camera_dist_r", dist_coeffs_r)
+# cv_file = cv2.FileStorage("calib_param.xml", cv2.FILE_STORAGE_WRITE)
+# cv_file.write("camera_intrinsic_l", camera_matrix_l)
+# cv_file.write("camera_dist_l", dist_coeffs_l)
+# cv_file.write("camera_intrinsic_r", camera_matrix_r)
+# cv_file.write("camera_dist_r", dist_coeffs_r)
 cv_file.write("R", R)
 cv_file.write("T", T)
 
